@@ -1,5 +1,15 @@
+import os.path
+
 import PySimpleGUI as sg
 from functions import get_todos,write_todos
+import os
+
+if not os.path.exists("todos.txt"):
+    with open("todos.txt", 'w') as fp:
+        pass
+
+
+
 
 sg.theme("DarkBlue17")
 label = sg.Text("Enter a todo")
