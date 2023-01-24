@@ -24,7 +24,7 @@ while True:
             todos.append(new_todo)
             write_todos(todos)
             window['todos'].update(values=todos)
-            window['todo'].update(value=[''][0])
+            window['todo'].update(value=['😃 added'][0])
 
         case "edit":
             todo1 = values['todos'][0]
@@ -41,6 +41,9 @@ while True:
             window['todo'].update(value=values['todos'][0])
 
         case sg.WIN_CLOSED:
+
             break
+
+
 window.close()
 
