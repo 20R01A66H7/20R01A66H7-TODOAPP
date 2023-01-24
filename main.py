@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 from functions import get_todos,write_todos
 
+sg.theme("DarkBlue17")
 label = sg.Text("Enter a todo")
 input_text = sg.InputText(tooltip="write todo ", key="todo")
 add_button = sg.Button("Add")
@@ -16,8 +17,6 @@ window = sg.Window('TODO',
 
 while True:
     event, values = window.read()
-    print(1,event)
-    print(2,values)
     match event:
         case "Add":
             todos = get_todos()
@@ -25,29 +24,36 @@ while True:
             todos.append(new_todo)
             write_todos(todos)
             window['todos'].update(values=todos)
-            window['todo'].update(value=['😃 added'][0])
+            window['todo'].update(value=[''][0])
 
         case "edit":
-            todo1 = values['todos'][0]
-            todo2 = values['todo']+"\n"
+            try:
+                todo1 = values['todos'][0]
+                todo2 = values['todo']+"\n"
 
-            todos = get_todos()
-            index = todos.index(todo1)
-            todos.pop(index)
-            todos.insert(index, todo2)
-            write_todos(todos)
-            window['todos'].update(values=todos)
+                todos = get_todos()
+                index = todos.index(todo1)
+                todos.pop(index)
+                todos.insert(index, todo2)
+                write_todos(todos)
+                window['todos'].update(values=todos)
+            except IndexError:
+                sg.popup("Please select an item first",font=('Helvetica', 15))
 
         case 'todos':
             window['todo'].update(value=values['todos'][0])
 
         case 'Complete':
-            todos = get_todos()
-            tobe_remove = values['todos'][0]
-            todos.remove(tobe_remove)
-            write_todos(todos)
-            window['todos'].update(values=todos)
-            window['todo'].update(value=['Deleted 😃'][0])
+            try:
+                todos = get_todos()
+                tobe_remove = values['todos'][0]
+                todos.remove(tobe_remove)
+                write_todos(todos)
+                window['todos'].update(values=todos)
+                window['todo'].update(value=['Deleted 😃'][0])
+            except IndexError:
+                sg.popup("Please select an item first",font=('Helvetica', 15))
+
 
         case sg.WIN_CLOSED:
 
