@@ -5,12 +5,13 @@ label = sg.Text("Enter a todo")
 input_text = sg.InputText(tooltip="write todo ", key="todo")
 add_button = sg.Button("Add")
 exit_button = sg.Button("Exit")
+complete_button = sg.Button("Complete")
 list_box = sg.Listbox(values=get_todos(),key="todos",
                       enable_events=True,size=(45,10))
 edit_button = sg.Button("edit")
 window = sg.Window('TODO',
                    layout=[[label], [input_text, add_button,],
-                           [list_box, edit_button]],
+                           [list_box],[complete_button, edit_button]],
                    font=('Helvetica', 15))
 
 while True:
@@ -39,6 +40,14 @@ while True:
 
         case 'todos':
             window['todo'].update(value=values['todos'][0])
+
+        case 'Complete':
+            todos = get_todos()
+            tobe_remove = values['todos'][0]
+            todos.remove(tobe_remove)
+            write_todos(todos)
+            window['todos'].update(values=todos)
+            window['todo'].update(value=['Deleted 😃'][0])
 
         case sg.WIN_CLOSED:
 
